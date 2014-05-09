@@ -5,6 +5,10 @@ module Bongloy
         "cus_3mJ8eGjetRskOq#{sequence}"
       end
 
+      def authentication_headers(key)
+        {'HTTP_AUTHORIZATION' => "Bearer #{key}"}
+      end
+
       def sample_email
         "someone@example.com"
       end
