@@ -20,13 +20,18 @@ module Bongloy
         }
       end
 
-      def card_token_params(options = {})
-        card = {
-          :number => sample_credit_card_numbers[:visa],
-          :exp_month => 12,
-          :exp_year => Time.now.year + 1,
-        }.merge(options)
-        {:card => card}
+      def credit_card_token_params(options = {})
+        {
+          :card => {
+            "number" => sample_credit_card_numbers[:visa],
+          }.merge(
+            sample_credit_card_params[:exp_date]
+          ).merge(
+            sample_credit_card_params[:cvc]
+          ).merge(
+            sample_credit_card_params[:optional]
+          ).merge(options)
+        }
       end
 
       def stub_get_customer(options = {})
@@ -64,26 +69,17 @@ module Bongloy
         WebMock.stub_request(:get, token_url(options)).to_return(sample_token_response(options))
       end
 
-      def sample_card(options = {})
+      def sample_credit_card(options = {})
         card_id = options[:card_id] || sample_card_id
         {
-          "id" => sample_card_id,
+          "id" => card_id,
           "object" => "card",
           "last4" => "4242",
           "type" => "Visa",
-          "exp_month" => 8,
-          "exp_year" => 2015,
           "fingerprint" => "Xt5EWLLDS7FJjR1c",
           "customer" => nil,
           "country" => "US",
-          "name" => nil,
-          "address_line1" => nil,
-          "address_line2" => nil,
-          "address_city" => nil,
-          "address_state" => nil,
-          "address_zip" => nil,
-          "address_country" => nil
-        }
+        }.merge(sample_credit_card_params[:exp_date]).merge(sample_credit_card_params[:optional])
       end
 
       def sample_token(options = {})
@@ -95,7 +91,7 @@ module Bongloy
           "used" => false,
           "object" => "token",
           "type" => "card",
-          "card" => sample_card(options)
+          "card" => sample_credit_card(options)
         }.merge("email" => sample_email).merge(options.slice(:email).stringify_keys)
       end
 
@@ -160,9 +156,9 @@ module Bongloy
             "total_count" => 1,
             "has_more" => false,
             "url" => "/v1/customers/#{customer_id}/cards",
-            "data" => [sample_card(options)]
+            "data" => [sample_credit_card(options)]
           },
-          "default_card" => sample_card(options)
+          "default_card" => sample_credit_card(options)
         }
         {
           :body => body.to_json,
@@ -199,6 +195,27 @@ module Bongloy
             }.merge(options)
           }.to_json,
           :status => status
+        }
+      end
+
+      def sample_credit_card_params
+        {
+          :exp_date => {
+            "exp_month" => 12,
+            "exp_year" => Time.now.year + 1
+          },
+          :cvc => {
+            "cvc" => "123"
+          },
+          :optional => {
+            "name" => "John Citizen",
+            "address_line1" => "cc Address Line 1",
+            "address_line2" => "cc Address Line 2",
+            "address_city" => "Melbourne",
+            "address_state" => "Victoria",
+            "address_zip" => "3001",
+            "address_country" => "Australia"
+          }
         }
       end
 

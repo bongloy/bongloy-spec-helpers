@@ -28,6 +28,18 @@ module Bongloy
           subject.authentication_headers("foo")["HTTP_AUTHORIZATION"].should == "Bearer foo"
         end
       end
+
+      describe "#credit_card_token_params(options = {})" do
+        it "should return a set of token params suitable for creating credit card tokens" do
+          subject.credit_card_token_params.should have_key(:card)
+        end
+      end
+
+      describe "#sample_credit_card(options = {})" do
+        it "should return a sample response for a credit card" do
+          subject.sample_credit_card.should have_key("id")
+        end
+      end
     end
   end
 end
