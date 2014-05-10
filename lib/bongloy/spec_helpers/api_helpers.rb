@@ -13,6 +13,22 @@ module Bongloy
         "someone@example.com"
       end
 
+      def sample_credit_card_numbers
+        {
+          :visa => "4242424242424242",
+          :mastercard => "5555555555554444"
+        }
+      end
+
+      def card_token_params(options = {})
+        card = {
+          :number => sample_credit_card_numbers[:visa],
+          :exp_month => 12,
+          :exp_year => Time.now.year + 1,
+        }.merge(options)
+        {:card => card}
+      end
+
       def stub_get_customer(options = {})
         WebMock.stub_request(:get, customer_url(options)).to_return(sample_customer_response(options))
       end

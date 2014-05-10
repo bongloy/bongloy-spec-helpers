@@ -15,6 +15,19 @@ module Bongloy
           end
         end
       end
+
+      describe "#sample_credit_card_numbers" do
+        it "should return a hash sample credit card numbers" do
+          subject.sample_credit_card_numbers.should have_key(:visa)
+          subject.sample_credit_card_numbers.should have_key(:mastercard)
+        end
+      end
+
+      describe "#authentication_headers(key)" do
+        it "should return HTTP headers for Bearer authentication" do
+          subject.authentication_headers("foo")["HTTP_AUTHORIZATION"].should == "Bearer foo"
+        end
+      end
     end
   end
 end
