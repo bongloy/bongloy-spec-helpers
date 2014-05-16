@@ -110,13 +110,6 @@ module Bongloy
           "livemode" => false,
           "description" => nil,
           "email" => nil,
-          "cards" => {
-            "object" => "list",
-            "total_count" => 1,
-            "has_more" => false,
-            "url" => "/v1/customers/#{customer_id}/cards",
-            "data" => [sample_credit_card(options)]
-          },
           "default_card" => sample_credit_card(options)
         }
       end
