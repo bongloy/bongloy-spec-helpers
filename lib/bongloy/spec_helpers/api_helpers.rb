@@ -79,6 +79,10 @@ module Bongloy
           "fingerprint" => "Xt5EWLLDS7FJjR1c",
           "customer" => nil,
           "country" => "US",
+          "created" => 1396430418,
+          "address_line1_check" => nil,
+          "address_zip_check" => nil,
+          "cvc_check" => nil
         }.merge(sample_credit_card_params[:exp_date]).merge(sample_credit_card_params[:optional])
       end
 
