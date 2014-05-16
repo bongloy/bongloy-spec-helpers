@@ -156,7 +156,7 @@ module Bongloy
 
       def sample_customer_response(options = {})
         {
-          :body => sample_customer.to_json,
+          :body => sample_customer(options).to_json,
           :status => 200,
           :headers => {'Content-Type' => "application/json;charset=utf-8"}
         }
