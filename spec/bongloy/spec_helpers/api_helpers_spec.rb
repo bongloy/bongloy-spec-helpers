@@ -45,6 +45,15 @@ module Bongloy
           ]
         end
       end
+
+      describe "#sample_customer(options = {})" do
+        it "should return a sample response for a customer" do
+          subject.sample_customer.keys.should =~ [
+            "id", "object", "created", "livemode", "description", "email", "cards", "default_card"
+          ]
+        end
+      end
+
     end
   end
 end

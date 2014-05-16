@@ -99,6 +99,28 @@ module Bongloy
         }.merge("email" => sample_email).merge(options.slice(:email).stringify_keys)
       end
 
+      def sample_customer(options = {})
+        customer_id = options[:customer_id] || sample_customer_id
+        card_id = options[:card_id] || sample_card_id
+
+        {
+          "id" => customer_id,
+          "object" => "customer",
+          "created" => 1396430334,
+          "livemode" => false,
+          "description" => nil,
+          "email" => nil,
+          "cards" => {
+            "object" => "list",
+            "total_count" => 1,
+            "has_more" => false,
+            "url" => "/v1/customers/#{customer_id}/cards",
+            "data" => [sample_credit_card(options)]
+          },
+          "default_card" => sample_credit_card(options)
+        }
+      end
+
       def sample_token_id
         "tok_103mJ925nfuGqgVOwJPSrhYd"
       end
@@ -133,39 +155,8 @@ module Bongloy
       private
 
       def sample_customer_response(options = {})
-        customer_id = options[:customer_id] || sample_customer_id
-        card_id = options[:card_id] || sample_card_id
-
-        body = {
-          "id" => customer_id,
-          "object" => "customer",
-          "created" => 1396430334,
-          "livemode" => false,
-          "description" => nil,
-          "email" => nil,
-          "delinquent" => false,
-          "metadata" => {},
-          "subscriptions" => {
-            "object" => "list",
-            "total_count" => 0,
-            "has_more" => false,
-            "url" => "/v1/customers/#{customer_id}/subscriptions",
-            "data" => []
-          },
-          "discount" => nil,
-          "account_balance" => 0,
-          "currency" => nil,
-          "cards" => {
-            "object" => "list",
-            "total_count" => 1,
-            "has_more" => false,
-            "url" => "/v1/customers/#{customer_id}/cards",
-            "data" => [sample_credit_card(options)]
-          },
-          "default_card" => sample_credit_card(options)
-        }
         {
-          :body => body.to_json,
+          :body => sample_customer.to_json,
           :status => 200,
           :headers => {'Content-Type' => "application/json;charset=utf-8"}
         }
