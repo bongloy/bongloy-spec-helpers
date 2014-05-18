@@ -2,7 +2,11 @@ module Bongloy
   module SpecHelpers
     class ApiHelpers
       def sample_customer_id(sequence = nil)
-        "cus_3mJ8eGjetRskOq#{sequence}"
+        "cus_b4139166aa8e4e62f4d72c08a3acaa7713ff97eab78b3b75001661b8d7b99797#{sequence}"
+      end
+
+      def sample_token_id(sequence = nil)
+        "tok_50415d300fd45f72475abc75392708dedcd7500c7a98a7a62e34411f4c8a6640#{sequence}"
       end
 
       def authentication_headers(key)
@@ -112,10 +116,6 @@ module Bongloy
           "email" => nil,
           "default_card" => sample_credit_card(options)
         }
-      end
-
-      def sample_token_id
-        "tok_103mJ925nfuGqgVOwJPSrhYd"
       end
 
       def customers_url(options = {})

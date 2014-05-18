@@ -16,6 +16,18 @@ module Bongloy
         end
       end
 
+      describe "#sample_token_id(sequence = nil)" do
+        it "should return a bongloy sample token id" do
+          subject.sample_token_id.should =~ /^tok_/
+        end
+
+        context "passing a sequence" do
+          it "should put the sequence at the end of the token id" do
+            subject.sample_token_id(1).should =~ /1$/
+          end
+        end
+      end
+
       describe "#sample_credit_card_numbers" do
         it "should return a hash sample credit card numbers" do
           subject.sample_credit_card_numbers.should have_key(:visa)
