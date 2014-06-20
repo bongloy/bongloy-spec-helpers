@@ -60,12 +60,18 @@ module Bongloy
         ).to_return(sample_token_response(options))
       end
 
+      def create_token_headers(headers = nil)
+        headers || {'Authorization' => "Bearer #{ENV['CHECKOUT_ACCESS_TOKEN']}"}
+      end
+
       def stub_create_token(options = {})
-        customer_id = options[:customer_id] || sample_customer_id
+        response_options = options.dup
+        customer_id = response_options[:customer_id] || sample_customer_id
         # stub with headers to avoid conflicts with #stub_check_publishable_key
+        headers = create_token_headers(response_options.delete(:headers))
         WebMock.stub_request(
-          :post, tokens_url(options)
-        ).with(:headers => {'Authorization' => "Bearer #{ENV['CHECKOUT_ACCESS_TOKEN']}"}).to_return(sample_token_response(options))
+          :post, tokens_url(response_options)
+        ).with(:headers => headers).to_return(sample_token_response(response_options))
       end
 
       def stub_create_customer(options = {})
@@ -134,9 +140,7 @@ module Bongloy
       end
 
       def customers_url(options = {})
-        uri = URI.parse(api_endpoint)
-        uri.path = "/customers"
-        uri.to_s
+        "#{api_endpoint}/customers"
       end
 
       def customer_url(options = {})
@@ -145,19 +149,19 @@ module Bongloy
       end
 
       def tokens_url(options = {})
-        uri = URI.parse(api_endpoint)
-        uri.path = "/tokens"
-        uri.to_s
+        "#{api_endpoint}/tokens"
       end
 
       def token_url(options = {})
         if token_id = options[:token_id]
-          uri = URI.parse(api_endpoint)
-          uri.path = "/tokens/#{token_id}"
-          uri.to_s
+          "#{api_endpoint}/tokens/#{token_id}"
         else
           /^#{api_endpoint}\/tokens\/\w+/
         end
+      end
+
+      def stripe_mode?
+        api_endpoint =~ /api.stripe.com/
       end
 
       private
@@ -220,10 +224,6 @@ module Bongloy
             "address_country" => "Australia"
           }
         }
-      end
-
-      def stripe_mode?
-        api_endpoint =~ /api.stripe.com/
       end
     end
   end

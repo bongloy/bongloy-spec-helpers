@@ -93,6 +93,31 @@ module Bongloy
           end
         end
       end
+
+      describe "#create_token_headers" do
+        context "passing {'X-CUSTOM-HEADER' => 'foo'}" do
+          it "should return the custom headers" do
+            subject.create_token_headers({'X-CUSTOM-HEADER' => 'foo'}).should == {'X-CUSTOM-HEADER' => 'foo'}
+          end
+        end
+
+        context "passing no args" do
+          it "should return authorization headers" do
+            subject.create_token_headers.should == {"Authorization" => "Bearer "}
+          end
+        end
+      end
+
+      describe "#stripe_mode?" do
+        context "the endpoint is stripe" do
+          subject { described_class.new(:api_endpoint => "https://api.stripe.com/v1") }
+          it { should be_stripe_mode }
+        end
+
+        context "the endpoint is not stripe" do
+          it { should_not be_stripe_mode }
+        end
+      end
     end
   end
 end
