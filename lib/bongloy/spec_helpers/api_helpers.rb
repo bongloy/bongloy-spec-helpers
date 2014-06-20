@@ -9,6 +9,10 @@ module Bongloy
         "tok_50415d300fd45f72475abc75392708dedcd7500c7a98a7a62e34411f4c8a6640#{sequence}"
       end
 
+      def sample_card_id(sequence = nil)
+        "card_60415d300fd45f72475abc75392708dedcd7500c7a98a7a62e34411f4c8a6640#{sequence}"
+      end
+
       def authentication_headers(key)
         {'HTTP_AUTHORIZATION' => "Bearer #{key}"}
       end
@@ -205,10 +209,6 @@ module Bongloy
             "address_country" => "Australia"
           }
         }
-      end
-
-      def sample_card_id
-        "card_103mIH25nfuGqgVO7zJIVtvD"
       end
 
       # change me later
