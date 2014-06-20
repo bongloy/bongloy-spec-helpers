@@ -1,6 +1,14 @@
 module Bongloy
   module SpecHelpers
     class ApiHelpers
+      BONGLOY_API_ENDPOINT = "https://api.bongloy.com/v1"
+
+      attr_accessor :api_endpoint
+
+      def initialize(options = {})
+        self.api_endpoint = options[:api_endpoint] || ENV["BONGLOY_API_ENDPOINT"] || BONGLOY_API_ENDPOINT
+      end
+
       def sample_customer_id(sequence = nil)
         "cus_b4139166aa8e4e62f4d72c08a3acaa7713ff97eab78b3b75001661b8d7b99797#{sequence}"
       end
@@ -66,10 +74,14 @@ module Bongloy
         ).to_return(sample_customer_response(options))
       end
 
+      def update_customer_http_method
+        stripe_mode? ? :post : :put
+      end
+
       def stub_update_customer(options = {})
-        stub_get_customer(options)
+        stub_get_customer(options) if stripe_mode?
         WebMock.stub_request(
-          :post, customer_url(options)
+          update_customer_http_method, customer_url(options)
         ).to_return(sample_customer_response(options))
       end
 
@@ -124,28 +136,28 @@ module Bongloy
 
       def customers_url(options = {})
         uri = URI.parse(api_endpoint)
-        uri.path = "/v1/customers"
+        uri.path = "/customers"
         uri.to_s
       end
 
       def customer_url(options = {})
         customer_id = options[:customer_id] || sample_customer_id
-        /^#{api_endpoint}\/v1\/customers\/#{customer_id}.*/
+        /^#{api_endpoint}\/customers\/#{customer_id}.*/
       end
 
       def tokens_url(options = {})
         uri = URI.parse(api_endpoint)
-        uri.path = "/v1/tokens"
+        uri.path = "/tokens"
         uri.to_s
       end
 
       def token_url(options = {})
         if token_id = options[:token_id]
           uri = URI.parse(api_endpoint)
-          uri.path = "/v1/tokens/#{token_id}"
+          uri.path = "/tokens/#{token_id}"
           uri.to_s
         else
-          /^#{api_endpoint}\/v1\/tokens\/\w+/
+          /^#{api_endpoint}\/tokens\/\w+/
         end
       end
 
@@ -211,9 +223,8 @@ module Bongloy
         }
       end
 
-      # change me later
-      def api_endpoint
-        "https://api.stripe.com"
+      def stripe_mode?
+        api_endpoint =~ /api.stripe.com/
       end
     end
   end

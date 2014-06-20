@@ -77,6 +77,22 @@ module Bongloy
           ]
         end
       end
+
+      describe "#update_customer_http_method" do
+        context "stripe is the endpoint" do
+          subject { described_class.new(:api_endpoint => "api.stripe.com/v1") }
+
+          it "should return :post" do
+            subject.update_customer_http_method.should == :post
+          end
+        end
+
+        context "bongloy is the endpoint" do
+          it "should return :put" do
+            subject.update_customer_http_method.should == :put
+          end
+        end
+      end
     end
   end
 end
