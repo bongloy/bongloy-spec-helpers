@@ -79,7 +79,6 @@ module Bongloy
       end
 
       def stub_update_customer(options = {})
-        stub_get_customer(options) if stripe_mode?
         WebMock.stub_request(
           update_customer_http_method, customer_url(options)
         ).to_return(sample_customer_response(options))
