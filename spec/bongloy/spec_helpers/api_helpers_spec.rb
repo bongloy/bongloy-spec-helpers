@@ -80,7 +80,7 @@ module Bongloy
 
       describe "#update_customer_http_method" do
         context "stripe is the endpoint" do
-          subject { described_class.new(:api_endpoint => "api.stripe.com/v1") }
+          subject { described_class.new(:api_endpoint => ENV["STRIPE_API_ENDPOINT"]) }
 
           it "should return :post" do
             subject.update_customer_http_method.should == :post
@@ -110,7 +110,7 @@ module Bongloy
 
       describe "#stripe_mode?" do
         context "the endpoint is stripe" do
-          subject { described_class.new(:api_endpoint => "https://api.stripe.com/v1") }
+          subject { described_class.new(:api_endpoint => ENV["STRIPE_API_ENDPOINT"]) }
           it { should be_stripe_mode }
         end
 

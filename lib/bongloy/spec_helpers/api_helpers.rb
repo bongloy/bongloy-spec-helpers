@@ -1,12 +1,10 @@
 module Bongloy
   module SpecHelpers
     class ApiHelpers
-      BONGLOY_API_ENDPOINT = "https://api.bongloy.com/v1"
-
       attr_accessor :api_endpoint
 
       def initialize(options = {})
-        self.api_endpoint = options[:api_endpoint] || ENV["BONGLOY_API_ENDPOINT"] || BONGLOY_API_ENDPOINT
+        self.api_endpoint = options[:api_endpoint] || (ENV["STRIPE_MODE"].to_i == 1 ? ENV["STRIPE_API_ENDPOINT"] : ENV["BONGLOY_API_ENDPOINT"])
       end
 
       def sample_customer_id(sequence = nil)
@@ -61,7 +59,11 @@ module Bongloy
       end
 
       def create_token_headers(headers = nil)
-        headers || {'Authorization' => "Bearer #{ENV['CHECKOUT_ACCESS_TOKEN']}"}
+        headers || stripe_create_token_headers
+      end
+
+      def stripe_create_token_headers
+        {'Authorization' => "Bearer #{ENV['STRIPE_CHECKOUT_ACCESS_TOKEN']}"}
       end
 
       def stub_create_token(options = {})
@@ -161,7 +163,7 @@ module Bongloy
       end
 
       def stripe_mode?
-        api_endpoint =~ /api.stripe.com/
+        api_endpoint == ENV["STRIPE_API_ENDPOINT"]
       end
 
       private
