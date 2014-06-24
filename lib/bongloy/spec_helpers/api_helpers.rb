@@ -20,7 +20,11 @@ module Bongloy
       end
 
       def authentication_headers(key)
-        {'HTTP_AUTHORIZATION' => "Bearer #{key}"}
+        {'HTTP_AUTHORIZATION' => bearer_authentication(key)}
+      end
+
+      def asserted_authentication_headers(key)
+        {'Authorization' => bearer_authentication(key)}
       end
 
       def sample_email
@@ -167,6 +171,10 @@ module Bongloy
       end
 
       private
+
+      def bearer_authentication(key)
+        "Bearer #{key}"
+      end
 
       def sample_customer_response(options = {})
         {

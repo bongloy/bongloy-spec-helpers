@@ -53,6 +53,12 @@ module Bongloy
         end
       end
 
+      describe "#asserted_authentication_headers(key)" do
+        it "should return the asserted HTTP headers for Bearer authentication" do
+          subject.asserted_authentication_headers("foo")["Authorization"].should == "Bearer foo"
+        end
+      end
+
       describe "#credit_card_token_params(options = {})" do
         it "should return a set of token params suitable for creating credit card tokens" do
           subject.credit_card_token_params.should have_key(:card)
