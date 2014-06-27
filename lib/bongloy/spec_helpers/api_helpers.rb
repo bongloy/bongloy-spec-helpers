@@ -38,6 +38,21 @@ module Bongloy
         }
       end
 
+      def charge_params(options = {})
+        charge_params_options = options.dup
+        charging = charge_params_options.delete("charging")
+        charge_type_params = {}
+        if charging == "token"
+          charge_type_params = {"card" => sample_token_id}
+        elsif charging == "customer"
+          charge_type_params = {"customer" => sample_customer_id}
+        elsif charging == "card"
+          charge_type_params = {"card" => credit_card_token_params[:card]}
+        end
+
+        {"amount" => "400", "currency" => "usd"}.merge(charge_type_params).merge(charge_params_options)
+      end
+
       def credit_card_token_params(options = {})
         {
           :card => {

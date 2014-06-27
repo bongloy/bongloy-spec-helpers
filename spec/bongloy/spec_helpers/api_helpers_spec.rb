@@ -124,6 +124,52 @@ module Bongloy
           it { should_not be_stripe_mode }
         end
       end
+
+      describe "#charge_params(options = {})" do
+        let(:result) { subject.charge_params(charge_params_options) }
+
+        context "passing 'charging' => 'card'" do
+          let(:charge_params_options) { { "charging" => "card" } }
+
+          it "should return valid charge params with card dictionary" do
+            result["card"].should have_key("number")
+          end
+        end
+
+        context "passing 'charging' => 'token'" do
+          let(:charge_params_options) { { "charging" => "token" } }
+
+          it "should return valid charge params with a card token" do
+            result["card"].should =~ /^tok_/
+          end
+        end
+
+        context "passing 'charging' => 'customer'" do
+          let(:charge_params_options) { { "charging" => "customer" } }
+
+          it "should return valid charge params with a customer id" do
+            result["customer"].should =~ /^cus_/
+          end
+        end
+
+        context "passing no options" do
+          let(:charge_params_options) { { } }
+
+          it "should return no customer or card params" do
+            result.should have_key("amount")
+            result.should have_key("currency")
+          end
+
+          context "passing other options" do
+            let(:charge_params_options) { { "amount" => "4000", "currency" => "khr" } }
+
+            it "should override the default params" do
+              result["amount"].should == "4000"
+              result["currency"].should == "khr"
+            end
+          end
+        end
+      end
     end
   end
 end
