@@ -40,6 +40,30 @@ module Bongloy
         end
       end
 
+      describe "#sample_charge_id(sequence = nil)" do
+        it "should return a bongloy sample charge id" do
+          subject.sample_charge_id.should =~ /^ch_/
+        end
+
+        context "passing a sequence" do
+          it "should put the sequence at the end of the charge id" do
+            subject.sample_charge_id(1).should =~ /1$/
+          end
+        end
+      end
+
+      describe "#sample_balance_transaction_id(sequence = nil)" do
+        it "should return a bongloy sample balance transaction id" do
+          subject.sample_balance_transaction_id.should =~ /^txn_/
+        end
+
+        context "passing a sequence" do
+          it "should put the sequence at the end of the balance transaction id" do
+            subject.sample_balance_transaction_id(1).should =~ /1$/
+          end
+        end
+      end
+
       describe "#sample_credit_card_numbers" do
         it "should return a hash sample credit card numbers" do
           subject.sample_credit_card_numbers.should have_key(:visa)
@@ -80,6 +104,24 @@ module Bongloy
         it "should return a sample response for a customer" do
           subject.sample_customer.keys.should =~ [
             "id", "object", "created", "livemode", "description", "email", "default_card"
+          ]
+        end
+      end
+
+      describe "#sample_charge(options = {})" do
+        it "should return a sample response for a charge" do
+          subject.sample_charge.keys.should =~ [
+            "id", "object", "created", "livemode", "description",
+            "amount", "currency", "card", "captured", "balance_transaction", "customer"
+          ]
+        end
+      end
+
+      describe "#sample_balance_transaction(options = {})" do
+        it "should return a sample response for a balance transaction" do
+          subject.sample_balance_transaction.keys.should =~ [
+            "id", "object", "created", "amount", "currency",
+            "type", "source", "available_on", "status"
           ]
         end
       end

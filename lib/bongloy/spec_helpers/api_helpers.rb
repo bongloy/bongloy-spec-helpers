@@ -19,6 +19,14 @@ module Bongloy
         "card_60415d300fd45f72475abc75392708dedcd7500c7a98a7a62e34411f4c8a6640#{sequence}"
       end
 
+      def sample_charge_id(sequence = nil)
+        "ch_61345e200fd45f72475abc75392708dedcd7510d7a98a7a62e34411f4c8a6640#{sequence}"
+      end
+
+      def sample_balance_transaction_id(sequence = nil)
+        "txn_61345e201fd45f72475abc75392708dedcd7510d7a98a7a62e56411f4c8a6640#{sequence}"
+      end
+
       def authentication_headers(key)
         {'HTTP_AUTHORIZATION' => bearer_authentication(key)}
       end
@@ -157,6 +165,43 @@ module Bongloy
           "description" => nil,
           "email" => nil,
           "default_card" => sample_credit_card(options)
+        }
+      end
+
+      def sample_charge(options = {})
+        charge_id = options[:charge_id] || sample_charge_id
+        customer_id = options[:customer_id] || sample_customer_id
+        balance_transaction_id = options[:balance_transaction_id] || sample_balance_transaction_id
+
+        {
+          "id" => charge_id,
+          "object" => "charge",
+          "created" => 1399703683,
+          "livemode" => false,
+          "amount" => 400,
+          "currency" => "usd",
+          "card" => sample_credit_card(options),
+          "captured" => true,
+          "balance_transaction" => balance_transaction_id,
+          "customer" => sample_customer_id,
+          "description" => nil
+        }
+      end
+
+      def sample_balance_transaction(options = {})
+        balance_transaction_id = options[:balance_transaction_id] || sample_balance_transaction_id
+        transactable_id = options[:transactable_id] || sample_charge_id
+
+        {
+          "id" => balance_transaction_id,
+          "object" => "balance_transaction",
+          "created" => 1399703683,
+          "amount" => 400,
+          "currency" => "usd",
+          "type" => "charge",
+          "source" => transactable_id,
+          "available_on" => 1399703683,
+          "status" => "available"
         }
       end
 
