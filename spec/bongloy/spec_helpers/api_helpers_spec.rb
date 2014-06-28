@@ -170,30 +170,6 @@ module Bongloy
       describe "#charge_params(options = {})" do
         let(:result) { subject.charge_params(charge_params_options) }
 
-        context "passing 'charging' => 'card'" do
-          let(:charge_params_options) { { "charging" => "card" } }
-
-          it "should return valid charge params with card dictionary" do
-            result["card"].should have_key("number")
-          end
-        end
-
-        context "passing 'charging' => 'token'" do
-          let(:charge_params_options) { { "charging" => "token" } }
-
-          it "should return valid charge params with a card token" do
-            result["card"].should =~ /^tok_/
-          end
-        end
-
-        context "passing 'charging' => 'customer'" do
-          let(:charge_params_options) { { "charging" => "customer" } }
-
-          it "should return valid charge params with a customer id" do
-            result["customer"].should =~ /^cus_/
-          end
-        end
-
         context "passing no options" do
           let(:charge_params_options) { { } }
 
