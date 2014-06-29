@@ -167,14 +167,12 @@ module Bongloy
           "object" => "charge",
           "created" => 1399703683,
           "livemode" => false,
-          "amount" => 400,
-          "currency" => "usd",
           "card" => sample_credit_card(options),
           "captured" => true,
           "balance_transaction" => balance_transaction_id,
           "customer" => sample_customer_id,
           "description" => nil
-        }
+        }.merge(charge_params)
       end
 
       def sample_balance_transaction(options = {})
@@ -185,13 +183,11 @@ module Bongloy
           "id" => balance_transaction_id,
           "object" => "balance_transaction",
           "created" => 1399703683,
-          "amount" => 400,
-          "currency" => "usd",
           "type" => "charge",
           "source" => transactable_id,
           "available_on" => 1399703683,
           "status" => "available"
-        }
+        }.merge(charge_params)
       end
 
       def customers_url(options = {})
@@ -267,8 +263,8 @@ module Bongloy
       def sample_credit_card_params
         {
           :exp_date => {
-            "exp_month" => 12,
-            "exp_year" => Time.now.year + 1
+            "exp_month" => "12",
+            "exp_year" => (Time.now.year + 1).to_s
           },
           :cvc => {
             "cvc" => "123"
