@@ -89,6 +89,12 @@ module Bongloy
         end
       end
 
+      describe "#wing_card_token_params(options = {})" do
+        it "should return a set of token params suitable for creating wing card tokens" do
+          subject.wing_card_token_params.should have_key(:wing_card)
+        end
+      end
+
       describe "#sample_credit_card(options = {})" do
         it "should return a sample response for a credit card" do
           subject.sample_credit_card.keys.should =~ [

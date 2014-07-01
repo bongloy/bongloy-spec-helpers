@@ -46,6 +46,10 @@ module Bongloy
         }
       end
 
+      def sample_wing_card_account_number
+        "1614"
+      end
+
       def charge_params(options = {})
         {"amount" => "400", "currency" => "usd"}.merge(options)
       end
@@ -60,6 +64,18 @@ module Bongloy
             sample_credit_card_params[:cvc]
           ).merge(
             sample_credit_card_params[:optional]
+          ).merge(options)
+        }
+      end
+
+      def wing_card_token_params(options = {})
+        {
+          :wing_card => {
+            "account_number" => sample_wing_card_account_number
+          }.merge(
+            sample_wing_card_params[:pin]
+          ).merge(
+            sample_wing_card_params[:optional]
           ).merge(options)
         }
       end
@@ -278,6 +294,13 @@ module Bongloy
             "address_zip" => "3001",
             "address_country" => "Australia"
           }
+        }
+      end
+
+      def sample_wing_card_params
+        {
+          :pin => {"pin" => "1234"},
+          :optional => {"number" => "12345678900001234"}
         }
       end
     end
