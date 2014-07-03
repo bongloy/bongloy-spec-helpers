@@ -106,6 +106,16 @@ module Bongloy
         end
       end
 
+      describe "#sample_wing_card(options = {})" do
+        it "should return a sample response for a credit card" do
+          subject.sample_wing_card.keys.should =~ ["address_city", "address_country",
+            "address_line1", "address_line2", "address_state", "address_zip",
+            "country", "created", "customer", "exp_month", "exp_year",
+            "fingerprint", "id", "name", "object", "account_number_last2"
+          ]
+        end
+      end
+
       describe "#sample_customer(options = {})" do
         it "should return a sample response for a customer" do
           subject.sample_customer.keys.should =~ [

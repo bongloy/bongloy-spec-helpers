@@ -47,7 +47,7 @@ module Bongloy
       end
 
       def sample_wing_card_account_number
-        "1614"
+        "554287"
       end
 
       def charge_params(options = {})
@@ -70,10 +70,10 @@ module Bongloy
 
       def wing_card_token_params(options = {})
         {
-          :wing_card => {
-            "account_number" => sample_wing_card_account_number
-          }.merge(
+          :wing_card => sample_wing_card_params[:account_number].merge(
             sample_wing_card_params[:pin]
+          ).merge(
+            sample_wing_card_params[:number]
           ).merge(
             sample_wing_card_params[:optional]
           ).merge(options)
@@ -126,6 +126,19 @@ module Bongloy
 
       def stub_get_token(options = {})
         WebMock.stub_request(:get, token_url(options)).to_return(sample_token_response(options))
+      end
+
+      def sample_wing_card(options = {})
+        card_id = options[:card_id] || sample_card_id
+        {
+          "id" => card_id,
+          "object" => "wing_card",
+          "fingerprint" => "Xt5EWLLDS7FJjR1c",
+          "customer" => nil,
+          "country" => "KH",
+          "created" => 1396430418,
+          "account_number_last2" => "87"
+        }.merge(sample_wing_card_params[:optional])
       end
 
       def sample_credit_card(options = {})
@@ -299,8 +312,12 @@ module Bongloy
 
       def sample_wing_card_params
         {
+          :account_number => {"account_number" => sample_wing_card_account_number},
           :pin => {"pin" => "1234"},
-          :optional => {"number" => "12345678900001234"}
+          :number => {"number" => "1234567890001234"},
+          :optional => sample_credit_card_params[:optional].merge(
+            sample_credit_card_params[:exp_date]
+          )
         }
       end
     end
