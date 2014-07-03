@@ -111,7 +111,7 @@ module Bongloy
           subject.sample_wing_card.keys.should =~ ["address_city", "address_country",
             "address_line1", "address_line2", "address_state", "address_zip",
             "country", "created", "customer", "exp_month", "exp_year",
-            "fingerprint", "id", "name", "object", "account_number_last2"
+            "fingerprint", "id", "name", "object", "last2"
           ]
         end
       end

@@ -137,7 +137,7 @@ module Bongloy
           "customer" => nil,
           "country" => "KH",
           "created" => 1396430418,
-          "account_number_last2" => "87"
+          "last2" => "87"
         }.merge(sample_wing_card_params[:optional])
       end
 
