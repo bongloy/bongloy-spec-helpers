@@ -1,6 +1,11 @@
 module WingMoney
   module SpecHelpers
     class ApiHelpers
+
+      def authentication_headers(key)
+        {'HTTP_AUTHORIZATION' => bearer_authentication(key)}
+      end
+
       def online_payment_transaction_params(options = {})
         build_request_params(:wing_transaction_online_payment, options) do |merge_params|
           wing_transaction_params.merge(merge_params)
@@ -32,6 +37,10 @@ module WingMoney
       end
 
       private
+
+      def bearer_authentication(key)
+        "Bearer #{key}"
+      end
 
       def build_request_params(root_key, options = {}, &block)
         merge_params = options.dup
