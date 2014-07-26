@@ -8,14 +8,8 @@ module WingMoney
 
       def online_payment_transaction_params(options = {})
         build_request_params(:wing_transaction_online_payment, options) do |merge_params|
-          wing_transaction_params.merge(merge_params)
-        end
-      end
-
-      def payment_online_transaction_params(options = {})
-        build_request_params(:wing_transaction_payment_online, options) do |merge_params|
           wing_transaction_params.merge(
-            :wing_account_security_code => "233566"
+            :biller_code => "1244"
           ).merge(merge_params)
         end
       end
@@ -31,7 +25,7 @@ module WingMoney
       def wei_luy_transaction_params(options = {})
         build_request_params(:wing_transaction_wei_luy, options) do |merge_params|
           wing_transaction_params.merge(
-            :wing_destination_account_mobile => "85512239137"
+            :recipient_mobile => "85512239137"
           ).merge(merge_params)
         end
       end
@@ -57,7 +51,6 @@ module WingMoney
           :wing_account_pin => "1234",
           :user_id => "wing-api-user-id",
           :password => "wing-api-secret",
-          :biller_code => "12445"
         }
       end
     end
