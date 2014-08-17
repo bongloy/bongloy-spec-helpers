@@ -17,7 +17,11 @@ module WingMoney
       def wing_to_wing_transaction_params(options = {})
         build_request_params(:wing_transaction_wing_to_wing, options) do |merge_params|
           wing_transaction_params.merge(
-            :wing_destination_account_number => "884834"
+            :wing_destination_account_number => "884834",
+            :wing_destination_usd_account_number => "884834",
+            :wing_destination_khr_account_number => "1615",
+            :khr_usd_buy_rate => "41.5",
+            :khr_usd_sell_rate => "40",
           ).merge(merge_params)
         end
       end
@@ -47,6 +51,7 @@ module WingMoney
       def wing_transaction_params
         {
           :amount => "1000",
+          :currency => "usd",
           :wing_account_number => "884832",
           :wing_account_pin => "1234",
           :user_id => "wing-api-user-id",
