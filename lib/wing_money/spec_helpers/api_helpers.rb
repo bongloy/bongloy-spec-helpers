@@ -52,7 +52,8 @@ module WingMoney
         {
           :amount => "1000",
           :currency => "usd",
-          :wing_account_number => "884832",
+          :wing_account_number => "564398",
+          :wing_card_number => "5018188000564398",
           :wing_account_pin => "1234",
           :user_id => "wing-api-user-id",
           :password => "wing-api-secret",

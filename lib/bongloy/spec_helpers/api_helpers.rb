@@ -46,8 +46,8 @@ module Bongloy
         }
       end
 
-      def sample_wing_card_account_number
-        "554287"
+      def sample_wing_card_number
+        "5018188000564398"
       end
 
       def charge_params(options = {})
@@ -55,29 +55,11 @@ module Bongloy
       end
 
       def credit_card_token_params(options = {})
-        {
-          :card => {
-            "number" => sample_credit_card_numbers[:visa],
-          }.merge(
-            sample_credit_card_params[:exp_date]
-          ).merge(
-            sample_credit_card_params[:cvc]
-          ).merge(
-            sample_credit_card_params[:optional]
-          ).merge(options)
-        }
+        sample_card_token_params({"number" => sample_credit_card_numbers[:visa]}.merge(options))
       end
 
       def wing_card_token_params(options = {})
-        {
-          :wing_card => sample_wing_card_params[:account_number].merge(
-            sample_wing_card_params[:pin]
-          ).merge(
-            sample_wing_card_params[:number]
-          ).merge(
-            sample_wing_card_params[:optional]
-          ).merge(options)
-        }
+        sample_card_token_params({"number" => sample_wing_card_number}.merge(options))
       end
 
       def stub_get_customer(options = {})
@@ -132,13 +114,14 @@ module Bongloy
         card_id = options[:card_id] || sample_card_id
         {
           "id" => card_id,
-          "object" => "wing_card",
+          "object" => "card",
           "fingerprint" => "Xt5EWLLDS7FJjR1c",
           "customer" => nil,
           "country" => "KH",
           "created" => 1396430418,
-          "last2" => "87"
-        }.merge(sample_wing_card_params[:optional])
+          "last4" => "87",
+          "type" => "Wing",
+        }.merge(sample_card_params[:exp_date]).merge(sample_card_params[:optional])
       end
 
       def sample_credit_card(options = {})
@@ -155,7 +138,7 @@ module Bongloy
           "address_line1_check" => nil,
           "address_zip_check" => nil,
           "cvc_check" => nil
-        }.merge(sample_credit_card_params[:exp_date]).merge(sample_credit_card_params[:optional])
+        }.merge(sample_card_params[:exp_date]).merge(sample_card_params[:optional])
       end
 
       def sample_token(options = {})
@@ -289,14 +272,14 @@ module Bongloy
         }
       end
 
-      def sample_credit_card_params
+      def sample_card_params
         {
           :exp_date => {
             "exp_month" => "12",
             "exp_year" => (Time.now.year + 1).to_s
           },
           :cvc => {
-            "cvc" => "123"
+            "cvc" => "1234"
           },
           :optional => {
             "name" => "John Citizen",
@@ -310,14 +293,16 @@ module Bongloy
         }
       end
 
-      def sample_wing_card_params
+      def sample_card_token_params(options = {})
         {
-          :account_number => {"account_number" => sample_wing_card_account_number},
-          :pin => {"pin" => "1234"},
-          :number => {"number" => "1234567890001234"},
-          :optional => sample_credit_card_params[:optional].merge(
-            sample_credit_card_params[:exp_date]
-          )
+          :card => {
+          }.merge(
+            sample_card_params[:exp_date]
+          ).merge(
+            sample_card_params[:cvc]
+          ).merge(
+            sample_card_params[:optional]
+          ).merge(options)
         }
       end
     end

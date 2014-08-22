@@ -91,7 +91,7 @@ module Bongloy
 
       describe "#wing_card_token_params(options = {})" do
         it "should return a set of token params suitable for creating wing card tokens" do
-          subject.wing_card_token_params.should have_key(:wing_card)
+          subject.wing_card_token_params.should have_key(:card)
         end
       end
 
@@ -111,7 +111,7 @@ module Bongloy
           subject.sample_wing_card.keys.should =~ ["address_city", "address_country",
             "address_line1", "address_line2", "address_state", "address_zip",
             "country", "created", "customer", "exp_month", "exp_year",
-            "fingerprint", "id", "name", "object", "last2"
+            "fingerprint", "id", "name", "object", "last4", "type"
           ]
         end
       end
