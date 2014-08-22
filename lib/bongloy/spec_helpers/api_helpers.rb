@@ -42,12 +42,9 @@ module Bongloy
       def sample_credit_card_numbers
         {
           :visa => "4242424242424242",
-          :mastercard => "5555555555554444"
+          :mastercard => "5555555555554444",
+          :wing => "5018188000564398"
         }
-      end
-
-      def sample_wing_card_number
-        "5018188000564398"
       end
 
       def charge_params(options = {})
@@ -59,7 +56,7 @@ module Bongloy
       end
 
       def wing_card_token_params(options = {})
-        sample_card_token_params({"number" => sample_wing_card_number}.merge(options))
+        sample_card_token_params({"number" => sample_credit_card_numbers[:wing]}.merge(options))
       end
 
       def stub_get_customer(options = {})
