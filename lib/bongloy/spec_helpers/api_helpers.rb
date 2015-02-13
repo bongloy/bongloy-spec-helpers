@@ -226,6 +226,10 @@ module Bongloy
         end
       end
 
+      def charges_url(options = {})
+        "#{api_endpoint}/charges"
+      end
+
       def stripe_mode?
         api_endpoint == ENV["STRIPE_API_ENDPOINT"]
       end
