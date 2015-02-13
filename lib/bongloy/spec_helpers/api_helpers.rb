@@ -93,6 +93,12 @@ module Bongloy
         ).to_return(sample_customer_response(options))
       end
 
+      def stub_create_charge(options = {})
+        WebMock.stub_request(
+          :post, charges_url(options)
+        ).to_return(sample_charge_response(options))
+      end
+
       def update_customer_http_method
         stripe_mode? ? :post : :put
       end
@@ -233,6 +239,14 @@ module Bongloy
       def sample_customer_response(options = {})
         {
           :body => sample_customer(options).to_json,
+          :status => 200,
+          :headers => {'Content-Type' => "application/json;charset=utf-8"}
+        }
+      end
+
+      def sample_charge_response(options = {})
+        {
+          :body => sample_charge(options).to_json,
           :status => 200,
           :headers => {'Content-Type' => "application/json;charset=utf-8"}
         }
