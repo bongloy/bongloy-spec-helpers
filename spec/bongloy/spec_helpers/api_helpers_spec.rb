@@ -119,7 +119,7 @@ module Bongloy
       describe "#sample_customer(options = {})" do
         it "should return a sample response for a customer" do
           subject.sample_customer.keys.should =~ [
-            "id", "object", "created", "livemode", "description", "email", "default_card"
+            "id", "object", "created", "livemode", "description", "email", "default_source"
           ]
         end
       end

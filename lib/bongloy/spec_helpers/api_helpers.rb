@@ -168,7 +168,7 @@ module Bongloy
           "livemode" => false,
           "description" => nil,
           "email" => nil,
-          "default_card" => sample_credit_card(options)
+          "default_source" => sample_credit_card(options)
         }
       end
 
