@@ -182,7 +182,7 @@ module Bongloy
           "object" => "charge",
           "created" => 1399703683,
           "livemode" => false,
-          "card" => sample_credit_card(options),
+          "source" => sample_credit_card(options),
           "captured" => true,
           "balance_transaction" => balance_transaction_id,
           "customer" => sample_customer_id,

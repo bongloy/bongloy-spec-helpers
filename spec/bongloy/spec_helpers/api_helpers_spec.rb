@@ -128,7 +128,7 @@ module Bongloy
         it "should return a sample response for a charge" do
           subject.sample_charge.keys.should =~ [
             "id", "object", "created", "livemode", "description",
-            "amount", "currency", "card", "captured", "balance_transaction", "customer"
+            "amount", "currency", "source", "captured", "balance_transaction", "customer"
           ]
         end
       end
