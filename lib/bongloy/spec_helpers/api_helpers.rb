@@ -123,7 +123,7 @@ module Bongloy
           "country" => "KH",
           "created" => 1396430418,
           "last4" => "87",
-          "type" => "Wing",
+          "brand" => "Wing",
         }.merge(sample_card_params[:exp_date]).merge(sample_card_params[:optional])
       end
 
@@ -133,7 +133,7 @@ module Bongloy
           "id" => card_id,
           "object" => "card",
           "last4" => "4242",
-          "type" => "Visa",
+          "brand" => "Visa",
           "fingerprint" => "Xt5EWLLDS7FJjR1c",
           "customer" => nil,
           "country" => "US",

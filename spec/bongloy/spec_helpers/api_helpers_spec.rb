@@ -98,7 +98,7 @@ module Bongloy
       describe "#sample_credit_card(options = {})" do
         it "should return a sample response for a credit card" do
           subject.sample_credit_card.keys.should =~ [
-            "id", "object", "last4", "type", "fingerprint", "customer", "country",
+            "id", "object", "last4", "brand", "fingerprint", "customer", "country",
             "created", "address_line1_check", "address_zip_check", "cvc_check",
             "exp_month", "exp_year", "name", "address_line1", "address_line2", "address_city",
             "address_state", "address_zip", "address_country"
@@ -111,7 +111,7 @@ module Bongloy
           subject.sample_wing_card.keys.should =~ ["address_city", "address_country",
             "address_line1", "address_line2", "address_state", "address_zip",
             "country", "created", "customer", "exp_month", "exp_year",
-            "fingerprint", "id", "name", "object", "last4", "type"
+            "fingerprint", "id", "name", "object", "last4", "brand"
           ]
         end
       end
