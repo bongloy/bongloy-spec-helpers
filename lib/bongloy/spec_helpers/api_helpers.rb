@@ -47,6 +47,10 @@ module Bongloy
         }
       end
 
+      def card_params(options = {})
+        sample_card_params[:optional].merge(sample_card_params[:exp_date]).merge(options)
+      end
+
       def charge_params(options = {})
         {"amount" => "400", "currency" => "usd"}.merge(options)
       end
@@ -112,6 +116,8 @@ module Bongloy
       def stub_get_token(options = {})
         WebMock.stub_request(:get, token_url(options)).to_return(sample_token_response(options))
       end
+
+
 
       def sample_wing_card(options = {})
         card_id = options[:card_id] || sample_card_id

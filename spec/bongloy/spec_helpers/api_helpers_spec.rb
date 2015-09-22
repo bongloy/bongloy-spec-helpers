@@ -83,6 +83,13 @@ module Bongloy
         end
       end
 
+      describe "#card_params(options = {})" do
+        let(:card_params) { subject.card_params }
+        it { expect(card_params).to have_key("exp_month") }
+        it { expect(card_params).to have_key("exp_year") }
+        it { expect(card_params).to have_key("name") }
+      end
+
       describe "#credit_card_token_params(options = {})" do
         it "should return a set of token params suitable for creating credit card tokens" do
           subject.credit_card_token_params.should have_key(:card)
