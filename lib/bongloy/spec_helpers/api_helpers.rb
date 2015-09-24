@@ -7,24 +7,8 @@ module Bongloy
         self.api_endpoint = options[:api_endpoint] || (ENV["STRIPE_MODE"].to_i == 1 ? ENV["STRIPE_API_ENDPOINT"] : ENV["BONGLOY_API_ENDPOINT"])
       end
 
-      def sample_customer_id(sequence = nil)
-        "cus_b4139166aa8e4e62f4d72c08a3acaa7713ff97eab78b3b75001661b8d7b99797#{sequence}"
-      end
-
-      def sample_token_id(sequence = nil)
-        "tok_50415d300fd45f72475abc75392708dedcd7500c7a98a7a62e34411f4c8a6640#{sequence}"
-      end
-
-      def sample_card_id(sequence = nil)
-        "card_60415d300fd45f72475abc75392708dedcd7500c7a98a7a62e34411f4c8a6640#{sequence}"
-      end
-
-      def sample_charge_id(sequence = nil)
-        "ch_61345e200fd45f72475abc75392708dedcd7510d7a98a7a62e34411f4c8a6640#{sequence}"
-      end
-
-      def sample_balance_transaction_id(sequence = nil)
-        "txn_61345e201fd45f72475abc75392708dedcd7510d7a98a7a62e56411f4c8a6640#{sequence}"
+      def generate_uuid
+        SecureRandom.uuid
       end
 
       def authentication_headers(key)
@@ -83,7 +67,7 @@ module Bongloy
 
       def stub_create_token(options = {})
         response_options = options.dup
-        customer_id = response_options[:customer_id] || sample_customer_id
+        customer_id = response_options[:customer_id] || generate_uuid
         # stub with headers to avoid conflicts with #stub_check_publishable_key
         headers = create_token_headers(response_options.delete(:headers))
         WebMock.stub_request(
@@ -117,10 +101,8 @@ module Bongloy
         WebMock.stub_request(:get, token_url(options)).to_return(sample_token_response(options))
       end
 
-
-
       def sample_wing_card(options = {})
-        card_id = options[:card_id] || sample_card_id
+        card_id = options[:card_id] || generate_uuid
         {
           "id" => card_id,
           "object" => "card",
@@ -134,7 +116,7 @@ module Bongloy
       end
 
       def sample_credit_card(options = {})
-        card_id = options[:card_id] || sample_card_id
+        card_id = options[:card_id] || generate_uuid
         {
           "id" => card_id,
           "object" => "card",
@@ -151,7 +133,7 @@ module Bongloy
       end
 
       def sample_token(options = {})
-        token_id = options[:token_id] || sample_token_id
+        token_id = options[:token_id] || generate_uuid
         {
           "id" => token_id,
           "livemode" => false,
@@ -164,8 +146,8 @@ module Bongloy
       end
 
       def sample_customer(options = {})
-        customer_id = options[:customer_id] || sample_customer_id
-        card_id = options[:card_id] || sample_card_id
+        customer_id = options[:customer_id] || generate_uuid
+        card_id = options[:card_id] || generate_uuid
 
         {
           "id" => customer_id,
@@ -179,9 +161,9 @@ module Bongloy
       end
 
       def sample_charge(options = {})
-        charge_id = options[:charge_id] || sample_charge_id
-        customer_id = options[:customer_id] || sample_customer_id
-        balance_transaction_id = options[:balance_transaction_id] || sample_balance_transaction_id
+        charge_id = options[:charge_id] || generate_uuid
+        customer_id = options[:customer_id] || generate_uuid
+        balance_transaction_id = options[:balance_transaction_id] || generate_uuid
 
         {
           "id" => charge_id,
@@ -191,14 +173,14 @@ module Bongloy
           "source" => sample_credit_card(options),
           "captured" => true,
           "balance_transaction" => balance_transaction_id,
-          "customer" => sample_customer_id,
+          "customer" => customer_id,
           "description" => nil
         }.merge(charge_params)
       end
 
       def sample_balance_transaction(options = {})
-        balance_transaction_id = options[:balance_transaction_id] || sample_balance_transaction_id
-        transactable_id = options[:transactable_id] || sample_charge_id
+        balance_transaction_id = options[:balance_transaction_id] || generate_uuid
+        transactable_id = options[:transactable_id] || generate_uuid
 
         {
           "id" => balance_transaction_id,
@@ -216,7 +198,7 @@ module Bongloy
       end
 
       def customer_url(options = {})
-        customer_id = options[:customer_id] || sample_customer_id
+        customer_id = options[:customer_id] || generate_uuid
         /^#{api_endpoint}\/customers\/#{customer_id}.*/
       end
 
