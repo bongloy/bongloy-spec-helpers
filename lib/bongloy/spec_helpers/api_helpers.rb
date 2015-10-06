@@ -11,6 +11,14 @@ module Bongloy
         SecureRandom.uuid
       end
 
+      def bongloy_account_headers(account_id)
+        {"HTTP_BONGLOY_ACCOUNT" => account_id}
+      end
+
+      def asserted_bongloy_account_headers(account_id)
+        {"Bongloy-Account" => account_id}
+      end
+
       def authentication_headers(key)
         {'HTTP_AUTHORIZATION' => bearer_authentication(key)}
       end

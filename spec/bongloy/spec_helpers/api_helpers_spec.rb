@@ -22,6 +22,14 @@ module Bongloy
         it { expect(subject.asserted_authentication_headers("foo")["Authorization"]).to eq("Bearer foo") }
       end
 
+      describe "#bongloy_account_headers(account_id)" do
+        it { expect(subject.bongloy_account_headers("foo")["HTTP_BONGLOY_ACCOUNT"]).to eq("foo") }
+      end
+
+      describe "#asserted_bongloy_account_headers(key)" do
+        it { expect(subject.asserted_bongloy_account_headers("foo")["Bongloy-Account"]).to eq("foo") }
+      end
+
       describe "#card_params(options = {})" do
         let(:card_params) { subject.card_params }
         it { expect(card_params).to have_key("exp_month") }
