@@ -92,38 +92,6 @@ module Bongloy
         end
       end
 
-      describe "#update_customer_http_method" do
-        context "stripe is the endpoint" do
-          subject { described_class.new(:api_endpoint => ENV["STRIPE_API_ENDPOINT"]) }
-          it { expect(subject.update_customer_http_method).to eq(:post) }
-        end
-
-        context "bongloy is the endpoint" do
-          it { expect(subject.update_customer_http_method).to eq(:put) }
-        end
-      end
-
-      describe "#create_token_headers" do
-        context "passing {'X-CUSTOM-HEADER' => 'foo'}" do
-          it { expect(subject.create_token_headers({'X-CUSTOM-HEADER' => 'foo'})).to eq({'X-CUSTOM-HEADER' => 'foo'}) }
-        end
-
-        context "passing no args" do
-          it { expect(subject.create_token_headers).to eq({"Authorization" => "Bearer "}) }
-        end
-      end
-
-      describe "#stripe_mode?" do
-        context "the endpoint is stripe" do
-          subject { described_class.new(:api_endpoint => ENV["STRIPE_API_ENDPOINT"]) }
-          it { is_expected.to be_stripe_mode }
-        end
-
-        context "the endpoint is not stripe" do
-          it { is_expected.not_to be_stripe_mode }
-        end
-      end
-
       describe "#charge_params(options = {})" do
         let(:result) { subject.charge_params(charge_params_options) }
 

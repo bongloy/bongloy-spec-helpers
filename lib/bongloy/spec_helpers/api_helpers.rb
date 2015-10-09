@@ -4,7 +4,7 @@ module Bongloy
       attr_accessor :api_endpoint
 
       def initialize(options = {})
-        self.api_endpoint = options[:api_endpoint] || (ENV["STRIPE_MODE"].to_i == 1 ? ENV["STRIPE_API_ENDPOINT"] : ENV["BONGLOY_API_ENDPOINT"])
+        self.api_endpoint = options[:api_endpoint] || ENV["BONGLOY_API_ENDPOINT"]
       end
 
       def generate_uuid
@@ -65,19 +65,11 @@ module Bongloy
         ).to_return(sample_token_response(options))
       end
 
-      def create_token_headers(headers = nil)
-        headers || stripe_create_token_headers
-      end
-
-      def stripe_create_token_headers
-        {'Authorization' => "Bearer #{ENV['STRIPE_CHECKOUT_ACCESS_TOKEN']}"}
-      end
-
       def stub_create_token(options = {})
         response_options = options.dup
         customer_id = response_options[:customer_id] || generate_uuid
         # stub with headers to avoid conflicts with #stub_check_publishable_key
-        headers = create_token_headers(response_options.delete(:headers))
+        headers = response_options.delete(:headers)
         WebMock.stub_request(
           :post, tokens_url(response_options)
         ).with(:headers => headers).to_return(sample_token_response(response_options))
@@ -95,13 +87,9 @@ module Bongloy
         ).to_return(sample_charge_response(options))
       end
 
-      def update_customer_http_method
-        stripe_mode? ? :post : :put
-      end
-
       def stub_update_customer(options = {})
         WebMock.stub_request(
-          update_customer_http_method, customer_url(options)
+          :put, customer_url(options)
         ).to_return(sample_customer_response(options))
       end
 
@@ -224,10 +212,6 @@ module Bongloy
 
       def charges_url(options = {})
         "#{api_endpoint}/charges"
-      end
-
-      def stripe_mode?
-        api_endpoint == ENV["STRIPE_API_ENDPOINT"]
       end
 
       private
