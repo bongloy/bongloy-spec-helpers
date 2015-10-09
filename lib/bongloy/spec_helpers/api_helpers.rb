@@ -93,6 +93,12 @@ module Bongloy
         ).to_return(sample_customer_response(options))
       end
 
+      def stub_update_card(options = {})
+        WebMock.stub_request(
+          :put, card_url(options)
+        ).to_return(sample_card_response(options))
+      end
+
       def stub_get_token(options = {})
         WebMock.stub_request(:get, token_url(options)).to_return(sample_token_response(options))
       end
@@ -198,6 +204,12 @@ module Bongloy
         /^#{api_endpoint}\/customers\/#{customer_id}.*/
       end
 
+      def card_url(options = {})
+        customer_id = options[:customer_id] || generate_uuid
+        card_id = options[:card_id] || generate_uuid
+        /^#{api_endpoint}\/customers\/#{customer_id}\/payment_sources\/#{card_id}.*/
+      end
+
       def tokens_url(options = {})
         "#{api_endpoint}/tokens"
       end
@@ -223,6 +235,14 @@ module Bongloy
       def sample_customer_response(options = {})
         {
           :body => sample_customer(options).to_json,
+          :status => 200,
+          :headers => {'Content-Type' => "application/json;charset=utf-8"}
+        }
+      end
+
+      def sample_card_response(options = {})
+        {
+          :body => sample_credit_card(options).to_json,
           :status => 200,
           :headers => {'Content-Type' => "application/json;charset=utf-8"}
         }
