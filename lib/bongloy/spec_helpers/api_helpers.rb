@@ -122,8 +122,8 @@ module Bongloy
         {
           "id" => card_id,
           "object" => "card",
-          "last4" => "4242",
-          "brand" => "Visa",
+          "last4" => "4444",
+          "brand" => "mastercard",
           "fingerprint" => "Xt5EWLLDS7FJjR1c",
           "customer" => nil,
           "country" => "US",
@@ -176,7 +176,8 @@ module Bongloy
           "captured" => true,
           "balance_transaction" => balance_transaction_id,
           "customer" => customer_id,
-          "description" => nil
+          "description" => nil,
+          "status" => "succeeded"
         }.merge(charge_params)
       end
 
