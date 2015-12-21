@@ -83,6 +83,14 @@ module Bongloy
         end
       end
 
+      describe "#sample_refund(options = {})" do
+        it do
+          expect(subject.sample_refund.keys).to match_array([
+            "amount", "balance_transaction", "charge", "created", "currency", "id", "object"
+          ])
+        end
+      end
+
       describe "#sample_balance_transaction(options = {})" do
         it do
           expect(subject.sample_balance_transaction.keys).to match_array([
