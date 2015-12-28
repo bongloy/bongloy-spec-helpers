@@ -177,7 +177,10 @@ module Bongloy
           "balance_transaction" => balance_transaction_id,
           "customer" => customer_id,
           "description" => nil,
-          "status" => "succeeded"
+          "status" => "succeeded",
+          "refunds" => [],
+          "refunded" => false,
+          "amount_refunded" => 0
         }.merge(charge_params)
       end
 

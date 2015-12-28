@@ -78,7 +78,7 @@ module Bongloy
         it do
           expect(subject.sample_charge.keys).to match_array([
             "id", "object", "created", "livemode", "description",
-            "amount", "currency", "source", "captured", "balance_transaction", "customer", "status"
+            "amount", "currency", "source", "captured", "balance_transaction", "customer", "status", "refunds", "refunded", "amount_refunded"
           ])
         end
       end
