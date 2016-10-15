@@ -91,6 +91,14 @@ module Bongloy
         end
       end
 
+      describe "#sample_dispute(options = {})" do
+        it do
+          expect(subject.sample_dispute.keys).to match_array([
+            "amount", "currency", "balance_transactions", "charge", "created", "id", "object", "livemode", "reason", "status"
+          ])
+        end
+      end
+
       describe "#sample_balance_transaction(options = {})" do
         it do
           expect(subject.sample_balance_transaction.keys).to match_array([

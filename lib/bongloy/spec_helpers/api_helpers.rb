@@ -198,6 +198,22 @@ module Bongloy
         }.merge(charge_params(options))
       end
 
+      def sample_dispute(options = {})
+        dispute_id = options[:dispute_id] || generate_uuid
+        charge_id = options[:charge_id] || generate_uuid
+
+        {
+          "id" => dispute_id,
+          "object" => "dispute",
+          "created" => 1450598894,
+          "charge" => charge_id,
+          "livemode" => false,
+          "reason" => "fraudulent",
+          "status" => "needs_response",
+          "balance_transactions" => [sample_balance_transaction(options)]
+        }.merge(charge_params(options))
+      end
+
       def sample_balance_transaction(options = {})
         balance_transaction_id = options[:balance_transaction_id] || generate_uuid
         transactable_id = options[:transactable_id] || generate_uuid
