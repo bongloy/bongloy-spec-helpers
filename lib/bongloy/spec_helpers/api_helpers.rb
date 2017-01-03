@@ -180,7 +180,8 @@ module Bongloy
           "status" => "succeeded",
           "refunds" => [],
           "refunded" => false,
-          "amount_refunded" => 0
+          "amount_refunded" => 0,
+          "statement_descriptor" => nil
         }.merge(charge_params)
       end
 
