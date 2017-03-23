@@ -68,9 +68,13 @@ module Bongloy
 
       describe "#sample_customer(options = {})" do
         it do
-          expect(subject.sample_customer.keys).to match_array([
-            "id", "object", "created", "livemode", "description", "email", "default_source"
+          result = subject.sample_customer
+
+          expect(result.keys).to match_array([
+            "id", "object", "created", "livemode", "description", "email", "default_source", "sources"
           ])
+
+          expect(result["sources"]["url"]).to include(result["id"])
         end
       end
 

@@ -150,6 +150,8 @@ module Bongloy
       def sample_customer(options = {})
         customer_id = options[:customer_id] || generate_uuid
         card_id = options[:card_id] || generate_uuid
+        default_source = sample_credit_card(options)
+        sources = [default_source]
 
         {
           "id" => customer_id,
@@ -158,7 +160,11 @@ module Bongloy
           "livemode" => false,
           "description" => nil,
           "email" => nil,
-          "default_source" => sample_credit_card(options)
+          "default_source" => default_source,
+          "sources" => bongloy_list(
+            sources,
+            "url" => customer_sources_url(:customer_id => customer_id, :sample => true)
+          )
         }
       end
 
@@ -236,7 +242,11 @@ module Bongloy
 
       def customer_url(options = {})
         customer_id = options[:customer_id] || generate_uuid
-        /^#{api_endpoint}\/customers\/#{customer_id}.*/
+        if options[:sample] == true
+          "#{api_endpoint}/customers/#{customer_id}"
+        else
+          /^#{api_endpoint}\/customers\/#{customer_id}.*/
+        end
       end
 
       def card_url(options = {})
@@ -259,6 +269,10 @@ module Bongloy
 
       def charges_url(options = {})
         "#{api_endpoint}/charges"
+      end
+
+      def customer_sources_url(options = {})
+        "#{customer_url(options)}/sources"
       end
 
       private
@@ -354,6 +368,16 @@ module Bongloy
             sample_card_params[:optional]
           ).merge(options)
         }
+      end
+
+      def bongloy_list(array, options = {})
+        {
+          "object" => "list",
+          "data" => array,
+          "has_more" => false,
+          "total_count" => array.count,
+          "url" => "change_me"
+        }.merge(options)
       end
     end
   end
