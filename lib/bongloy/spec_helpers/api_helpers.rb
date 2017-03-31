@@ -136,6 +136,8 @@ module Bongloy
 
       def sample_token(options = {})
         token_id = options[:token_id] || generate_uuid
+        whitelisted_options = {}
+        whitelisted_options.merge!("email" => options[:email]) if options[:email]
         {
           "id" => token_id,
           "livemode" => false,
@@ -143,8 +145,9 @@ module Bongloy
           "used" => false,
           "object" => "token",
           "type" => "card",
-          "card" => sample_credit_card(options)
-        }.merge("email" => sample_email).merge(options.slice(:email).stringify_keys)
+          "card" => sample_credit_card(options),
+          "client_ip" => "127.0.0.1"
+        }.merge("email" => sample_email).merge(whitelisted_options)
       end
 
       def sample_customer(options = {})

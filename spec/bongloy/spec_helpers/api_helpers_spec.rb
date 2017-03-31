@@ -103,6 +103,14 @@ module Bongloy
         end
       end
 
+      describe "#sample_token(options = {})" do
+        it do
+          expect(subject.sample_token.keys).to match_array([
+            "card", "client_ip", "created", "email", "id", "livemode", "object", "type", "used"
+          ])
+        end
+      end
+
       describe "#sample_balance_transaction(options = {})" do
         it do
           expect(subject.sample_balance_transaction.keys).to match_array([
